@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Engineering portfolio of Tharun P. Inspired by vintage cinema, showcasing computer science, network engineering, and IoT projects.">
+  <meta name="keywords" content="Tharun P, Computer Science, Network Engineering, Portfolio, Vintage Cinema, Developer, AI, IoT">
+  <meta name="author" content="Tharun P">
+  
+  <title>Tharun P // Scene & System // Engineering Portfolio</title>
+
+  <!-- Google Fonts - Vintage & Typewriter Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <!-- CDNs: Tailwind CSS, Lucide Icons, GSAP Animation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cream-ivory': '#FAF7F0',
+            'sepia-sand': '#EFECE4',
+            'retro-charcoal': '#22211F',
+            'sepia-gray': '#5D5A56',
+            'sage-olive': '#4A533C',
+            'vintage-sepia': '#7A5F48',
+            'ticket-crimson': '#8F3A2E'
+          },
+          fontFamily: {
+            'cinema': ['"Playfair Display"', 'Georgia', 'serif'],
+            'typewriter': ['"Courier Prime"', '"Courier New"', 'monospace'],
+            'elite': ['"Special Elite"', 'monospace'],
+            'sans': ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles for Cinematic Theme -->
+  <style>
+    /* Vignette and Grain overlays */
+    .cinema-vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      box-shadow: inset 0 0 100px rgba(34, 33, 31, 0.4);
+    }
+
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 98;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Sprocket holes repeating borders */
+    .sprocket-strip-top {
+      height: 14px;
+      background: #22211F;
+      display: flex;
+      justify-content: space-around;
+      overflow: hidden;
+      align-items: center;
+      padding: 0 4px;
+    }
+    .sprocket-hole {
+      width: 12px;
+      height: 7px;
+      background: #FAF7F0;
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin: 0 6px;
+    }
+
+    /* Spot-light card hovering effect */
+    .spotlight-card {
+      position: relative;
+      background: #EFECE4;
+      border: 1px solid rgba(122, 95, 72, 0.15);
+      border-radius: 24px;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .spotlight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(34, 33, 31, 0.06);
+      border-color: rgba(143, 58, 46, 0.4);
+    }
+
+    /* Mouse-follow radial glow inside card */
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(143, 58, 46, 0.08), transparent 85%);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Typing Animation cursor */
+    .typewriter-cursor::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      from, to { color: transparent }
+      50% { color: #8F3A2E }
+    }
+
+    /* Custom animated cursor styling */
+    @media (min-width: 768px) {
+      .custom-cursor-active {
+        cursor: none;
+      }
+      .custom-cursor-active a, 
+      .custom-cursor-active button,
+      .custom-cursor-active input,
+      .custom-cursor-active textarea,
+      .custom-cursor-active select,
+      .custom-cursor-active [role="button"] {
+        cursor: none;
+      }
+    }
+
+    /* Ticket styling */
+    .ticket-stub {
+      position: relative;
+      background: #EFECE4;
+      border-left: 2px dashed rgba(34, 33, 31, 0.2);
+    }
+
+    .ticket-stub::before, .ticket-stub::after {
+      content: '';
+      position: absolute;
+      left: -8px;
+      width: 16px;
+      height: 16px;
+      background: #FAF7F0;
+      border-radius: 50%;
+      border: 1px solid rgba(34, 33, 31, 0.1);
+    }
+    .ticket-stub::before { top: -8px; }
+    .ticket-stub::after { bottom: -8px; }
+
+    /* Custom scrollbar matching retro theme */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF7F0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D8D3C5;
+      border-radius: 9999px;
+      border: 2px solid #FAF7F0;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8F3A2E;
+    }
+
+    /* Selection overrides */
+    ::selection {
+      background-color: rgba(143, 58, 46, 0.15);
+      color: #8F3A2E;
+    }
+  </style>
+</head>
+<body class="bg-cream-ivory text-retro-charcoal font-sans antialiased overflow-x-hidden relative">
+
+  <!-- Vignette & Film Grain overlays -->
+  <div class="cinema-vignette"></div>
+  <div class="film-grain"></div>
+
+  <!-- Custom Cursor Viewfinder -->
+  <div id="custom-cursor" class="fixed top-0 left-0 w-8 h-8 rounded-full border border-ticket-crimson pointer-events-none z-50 hidden md:flex items-center justify-center -translate-x-1/2 -translate-y-1/2 transition-transform duration-200">
+    <div class="w-1.5 h-1.5 bg-ticket-crimson rounded-full"></div>
+    <div class="absolute inset-1.5 border border-dashed border-ticket-crimson/50 rounded-full"></div>
+  </div>
+
+  <!-- CINEMATIC COUNTDOWN LOADER -->
+  <div id="countdown-loader" class="fixed inset-0 bg-retro-charcoal z-[999] flex flex-col items-center justify-center select-none">
+    <div class="relative w-64 h-64 border-[3px] border-sepia-sand/30 rounded-full flex items-center justify-center">
+      <!-- Target crosshair -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-full h-[1px] bg-sepia-sand/15"></div>
+        <div class="h-full w-[1px] bg-sepia-sand/15"></div>
+      </div>
+      <!-- Sweep animation -->
+      <div class="absolute inset-0 rounded-full border-[3px] border-ticket-crimson border-t-transparent animate-spin" style="animation-duration: 1s;"></div>
+      <!-- Countdown text -->
+      <span id="countdown-text" class="font-elite text-7xl text-sepia-sand tracking-widest">3</span>
+    </div>
+    <div class="mt-8 text-center space-y-2">
+      <p class="font-typewriter text-xs uppercase tracking-[0.2em] text-sepia-gray">Production: System Boot</p>
+      <p class="font-cinema italic text-sm text-sepia-sand">"Scene 01 // Logic & Curiosity"</p>
+    </div>
+  </div>
+
+  <!-- HEADER STICKY BAR -->
+  <header id="main-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 py-6 bg-transparent border-b border-transparent">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      
+      <!-- Monogram Logo -->
+      <a href="#hero" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 border-2 border-retro-charcoal rounded-md flex items-center justify-center font-elite text-lg font-bold group-hover:bg-retro-charcoal group-hover:text-cream-ivory transition-all duration-300">
+          TP
+        </div>
+        <div class="flex flex-col">
+          <span class="font-typewriter text-xs font-bold uppercase tracking-wider">Tharun P</span>
+          <span class="font-typewriter text-[9px] text-sepia-gray uppercase tracking-widest">Scene & System</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#about" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene I: Profile
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="#projects" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene II: Features
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="#experience" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene III: Logs
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="#skills" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene IV: Index
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="#certifications" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene V: Reels
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        <a href="#contact" class="font-typewriter text-xs uppercase tracking-wider text-retro-charcoal/70 hover:text-ticket-crimson transition-colors relative py-1 group">
+          Scene VI: Epilogue
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-ticket-crimson transition-all duration-300 group-hover:w-full"></span>
+        </a>
+      </nav>
+
+      <!-- Resume Download -->
+      <div class="hidden lg:block">
+        <a href="resume.txt" download="Tharun_P_Resume.txt" class="inline-flex items-center gap-2 px-5 py-2.5 bg-ticket-crimson hover:bg-retro-charcoal text-cream-ivory text-xs font-typewriter uppercase tracking-wider rounded-md transition-all duration-300 shadow-sm">
+          <span>Ticket Resume</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+
+      <!-- Mobile hamburger toggle -->
+      <button id="hamburger-btn" class="lg:hidden p-2 text-retro-charcoal hover:text-ticket-crimson focus:outline-none z-50">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- Mobile Navigation overlay -->
+  <div id="mobile-menu" class="fixed inset-y-0 right-0 w-full max-w-xs bg-cream-ivory border-l border-sepia-sand/30 z-40 transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between p-8 pt-28">
+    <nav class="flex flex-col gap-6 text-xl font-cinema font-bold">
+      <a href="#about" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene I: Profile</a>
+      <a href="#projects" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene II: Features</a>
+      <a href="#experience" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene III: Logs</a>
+      <a href="#skills" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene IV: Index</a>
+      <a href="#certifications" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene V: Reels</a>
+      <a href="#contact" class="mobile-link text-retro-charcoal hover:text-ticket-crimson transition-colors text-left">Scene VI: Epilogue</a>
+    </nav>
+    <div class="border-t border-retro-charcoal/10 pt-6 space-y-4">
+      <a href="resume.txt" download="Tharun_P_Resume.txt" class="w-full flex items-center justify-center gap-2 py-3.5 bg-ticket-crimson text-cream-ivory font-typewriter rounded-md text-xs uppercase tracking-wider">
+        <span>Download Resume</span>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+      <p class="text-[9px] text-sepia-gray font-typewriter text-center uppercase tracking-widest">
+        THARUN P &copy; 2026 // SYSTEM & SCENE
+      </p>
+    </div>
+  </div>
+
+  <!-- SPROCKET BORDER ACCENTS -->
+  <div class="h-4 bg-retro-charcoal w-full mt-24">
+    <div class="sprocket-strip-top">
+      <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-6 md:px-12 py-16 overflow-visible">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="min-h-[80vh] flex flex-col justify-center py-8 relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Typography -->
+        <div class="lg:col-span-8 space-y-8">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-sepia-sand border border-vintage-sepia/20 rounded-md text-xs font-typewriter text-vintage-sepia uppercase tracking-wider">
+            <i data-lucide="clapperboard" class="w-3.5 h-3.5 text-ticket-crimson animate-pulse"></i>
+            <span>Log // Scene 01: Prologue</span>
+          </div>
+
+          <div class="space-y-4">
+            <h1 class="font-cinema text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] text-retro-charcoal">
+              Tharun P.
+            </h1>
+            <p class="font-typewriter text-sm sm:text-base text-ticket-crimson font-bold uppercase tracking-wider block">
+              Computer Science & Network Engineering Student | Developer | Problem Solver
+            </p>
+            <p id="typewriter-text" class="font-elite text-2xl sm:text-3xl text-sepia-gray tracking-wide min-h-[60px] typewriter-cursor leading-relaxed"></p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 pt-4">
+            <a href="#projects" class="px-6 py-4 bg-ticket-crimson hover:bg-retro-charcoal text-cream-ivory font-typewriter text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-300 flex items-center gap-2 group">
+              <span>Selected Features</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            <a href="resume.txt" download="Tharun_P_Resume.txt" class="px-6 py-4 bg-white border border-retro-charcoal/10 hover:border-ticket-crimson text-retro-charcoal hover:text-ticket-crimson font-typewriter text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-300 flex items-center gap-2">
+              <span>Collect Ticket Resume</span>
+              <i data-lucide="download" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual HUD mock -->
+        <div class="lg:col-span-4 flex justify-center lg:justify-end">
+          <div class="w-full max-w-sm aspect-[4/3] bg-sepia-sand/30 border border-vintage-sepia/25 rounded-3xl p-6 relative overflow-hidden group flex flex-col justify-between">
+            {/* Film sprocket vertical border */}
+            <div class="absolute right-3 top-0 bottom-0 w-3 flex flex-col justify-around py-4 opacity-30">
+              <div class="w-2.5 h-1.5 bg-retro-charcoal rounded-sm"></div><div class="w-2.5 h-1.5 bg-retro-charcoal rounded-sm"></div><div class="w-2.5 h-1.5 bg-retro-charcoal rounded-sm"></div><div class="w-2.5 h-1.5 bg-retro-charcoal rounded-sm"></div><div class="w-2.5 h-1.5 bg-retro-charcoal rounded-sm"></div>
+            </div>
+            
+            <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+              <div class="flex items-center gap-2">
+                <i data-lucide="video" class="w-4 h-4 text-ticket-crimson animate-pulse"></i>
+                <span class="font-typewriter text-[9px] text-sepia-gray uppercase tracking-widest">Reel // Tracker</span>
+              </div>
+              <span class="font-typewriter text-[9px] bg-ticket-crimson text-cream-ivory px-2 py-0.5 rounded">REC</span>
+            </div>
+
+            <!-- Film Reel Graphic -->
+            <div class="py-6 flex items-center justify-center relative">
+              <svg class="w-32 h-32 text-retro-charcoal/80 group-hover:text-ticket-crimson transition-colors duration-500 origin-center" style="animation: spin 20s linear infinite;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="2" />
+                <circle cx="50" cy="50" r="12" fill="currentColor" />
+                <!-- Spoke segments -->
+                <circle cx="50" cy="22" r="6" fill="#FAF7F0" />
+                <circle cx="50" cy="78" r="6" fill="#FAF7F0" />
+                <circle cx="22" cy="50" r="6" fill="#FAF7F0" />
+                <circle cx="78" cy="50" r="6" fill="#FAF7F0" />
+                <path d="M50 12V38 M50 62V88 M12 50H38 M62 50H88" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </div>
+
+            <div class="border-t border-retro-charcoal/10 pt-3 flex items-center justify-between font-typewriter text-[9px] text-sepia-gray">
+              <span>PROJECTOR: 01</span>
+              <span>SCENE_LOG: OK</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene I // Prologue</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-16">
+      <div class="space-y-12">
+        <!-- Header -->
+        <div>
+          <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block mb-2">Scene I // The Protagonist</span>
+          <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+            Narrative & Technical Alignment
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          <!-- Bio card -->
+          <div class="lg:col-span-8 spotlight-card p-8 flex flex-col justify-between">
+            <div class="space-y-6">
+              <div class="flex items-center gap-2">
+                <i data-lucide="user" class="w-5 h-5 text-ticket-crimson"></i>
+                <span class="font-typewriter text-xs text-sepia-gray uppercase tracking-widest">Character Log</span>
+              </div>
+
+              <h3 class="font-cinema font-bold text-2xl text-retro-charcoal leading-snug">
+                An engineering path built on strict logic, powered by structural discovery.
+              </h3>
+
+              <div class="space-y-4 text-sm text-sepia-gray leading-relaxed font-sans">
+                <p>
+                  As a Computer Science and Network Engineering student, I treat software platforms and network architectures like scenes in a script—each module, protocol, and node must serve a precise narrative purpose to solve systemic, real-world problems.
+                </p>
+                <p>
+                  My education is centered on network topologies, data pipelines, database query patterns, and secure cloud configurations. I enjoy bridging the gap between embedded hardware layers (IoT sensor setups) and predictive backend systems (machine learning frameworks).
+                </p>
+                <p>
+                  I approach development as a continuous cycle of inquiry: analyzing throughput anomalies, optimizing database structures, and building interfaces that simplify complex logic for end-users.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-retro-charcoal/10 flex flex-wrap gap-6 font-typewriter text-xs text-sepia-gray">
+              <div>
+                <span class="font-bold text-retro-charcoal block">Academic Track:</span>
+                <span>Bachelor of Engineering</span>
+              </div>
+              <div>
+                <span class="font-bold text-retro-charcoal block">Location Base:</span>
+                <span>Bangalore, India</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sepia card -->
+          <div class="lg:col-span-4 spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-6">
+              <!-- Portrait box -->
+              <div class="aspect-square bg-cream-ivory rounded-2xl border border-vintage-sepia/25 flex items-center justify-center relative overflow-hidden group">
+                <!-- Retro line frame overlay -->
+                <div class="absolute inset-4 border border-dashed border-vintage-sepia/30 rounded-xl"></div>
+                
+                <!-- Abstract Vector Focus Graphic -->
+                <svg class="w-20 h-20 text-vintage-sepia opacity-80 group-hover:scale-105 transition-transform duration-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 15 H35 M15 15 V35 M85 15 H65 M85 15 V35 M15 85 H35 M15 85 V65 M85 85 H65 M85 85 V65" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="50" cy="50" r="10" stroke="currentColor" strokeWidth="1" />
+                  <line x1="50" y1="25" x2="50" y2="75" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" />
+                  <line x1="25" y1="50" x2="75" y2="50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" />
+                </svg>
+
+                <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[8px] font-typewriter text-sepia-gray bg-cream-ivory/90 backdrop-blur px-2.5 py-1.5 rounded border border-vintage-sepia/15 shadow-sm">
+                  <span>CAMERA: RETRO_01</span>
+                  <span>FOCAL: LOCK</span>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <h4 class="font-typewriter text-xs font-bold uppercase tracking-wider">Operational Status</h4>
+                <p class="text-xs text-sepia-gray leading-relaxed">
+                  Actively evaluating engineering internships, system testing cooperations, and collaborative software projects.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-retro-charcoal/10 space-y-2">
+              <div class="flex items-center gap-2 text-xs font-semibold">
+                <i data-lucide="check-square" class="w-4 h-4 text-ticket-crimson"></i>
+                <span>Open for Technical Internships</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs font-semibold">
+                <i data-lucide="check-square" class="w-4 h-4 text-ticket-crimson"></i>
+                <span>Available for Dev Collaborations</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene II // Selected Features</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- PROJECTS GALLERY -->
+    <section id="projects" class="py-16">
+      <div class="space-y-12">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block mb-2">Scene II // Feature Presentations</span>
+            <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+              Production Logs & System Deployments
+            </h2>
+          </div>
+
+          <!-- Project Filters -->
+          <div id="project-filters" class="flex flex-wrap gap-2">
+            <button data-filter="all" class="px-4 py-2 bg-ticket-crimson border border-ticket-crimson text-cream-ivory text-xs font-typewriter uppercase tracking-wider rounded transition-all duration-300">All Reels</button>
+            <button data-filter="ai" class="px-4 py-2 bg-sepia-sand border border-vintage-sepia/20 hover:border-ticket-crimson text-retro-charcoal text-xs font-typewriter uppercase tracking-wider rounded transition-all duration-300">AI & Logic</button>
+            <button data-filter="iot" class="px-4 py-2 bg-sepia-sand border border-vintage-sepia/20 hover:border-ticket-crimson text-retro-charcoal text-xs font-typewriter uppercase tracking-wider rounded transition-all duration-300">IoT & Hardware</button>
+            <button data-filter="network" class="px-4 py-2 bg-sepia-sand border border-vintage-sepia/20 hover:border-ticket-crimson text-retro-charcoal text-xs font-typewriter uppercase tracking-wider rounded transition-all duration-300">Networks</button>
+            <button data-filter="web" class="px-4 py-2 bg-sepia-sand border border-vintage-sepia/20 hover:border-ticket-crimson text-retro-charcoal text-xs font-typewriter uppercase tracking-wider rounded transition-all duration-300">Web & Cloud</button>
+          </div>
+        </div>
+
+        <!-- Asymmetrical Bento Grid -->
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          <!-- Project 1: Smart Attendance System using Face Recognition -->
+          <div class="project-item md:col-span-7 flex flex-col" data-category="ai">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">AI & Vision</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Smart Attendance System via Face Recognition</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A verification setup designed to automate academic roll-calls. Leverages deep neural profiles to match face matrices, updating SQL database logs in real-time.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <!-- SVG Thumbnail -->
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 300 150" fill="none">
+                    <rect width="300" height="150" fill="#EFECE4" opacity="0.3"/>
+                    <circle cx="150" cy="75" r="30" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3"/>
+                    <rect x="135" y="60" width="30" height="30" stroke="currentColor" strokeWidth="1.5"/>
+                    <line x1="100" y1="75" x2="200" y2="75" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" />
+                    <line x1="150" y1="35" x2="150" y2="115" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Python</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">OpenCV</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">SQL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: IoT-Based Road Quality Analyzer -->
+          <div class="project-item md:col-span-5 flex flex-col" data-category="iot">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">IoT & Sensors</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">IoT Road Quality Analyzer</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A hardware setup pairing Arduino modules with gyroscopes and GPS sensors to scan road anomalies, logging coordinates to help map municipal potholes.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 200 100" fill="none">
+                    <path d="M10 70 Q40 10, 80 80 T150 20 T190 70" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="80" cy="80" r="4" fill="currentColor" />
+                    <line x1="80" y1="80" x2="80" y2="20" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3"/>
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Arduino</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">C++</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">GPS Modules</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Campus Event Management Platform -->
+          <div class="project-item md:col-span-5 flex flex-col" data-category="web">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">Web Dev</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Campus Event Manager</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A centralized reservation system for college assemblies. Handles session conflicts, seat registration thresholds, and generates unique user verification tickets.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 200 100" fill="none">
+                    <rect x="30" y="20" width="140" height="60" rx="6" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="50" cy="50" r="10" fill="currentColor" opacity="0.3"/>
+                    <rect x="75" y="40" width="70" height="8" rx="2" fill="currentColor" />
+                    <rect x="75" y="55" width="50" height="6" rx="2" fill="currentColor" opacity="0.6" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">React</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Node.js</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">SQL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4: Network Traffic Monitoring Dashboard -->
+          <div class="project-item md:col-span-7 flex flex-col" data-category="network">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">Networks</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Network Traffic Monitor</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A monitoring dashboard designed to capture packet patterns, analyze protocol distributions, and flag load spikes or potential DDoS sweeps.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 300 150" fill="none">
+                    <rect width="300" height="150" fill="#EFECE4" opacity="0.3"/>
+                    <path d="M30 110 L60 80 L90 120 L120 40 L150 90 L180 30 L210 130 L240 70 L270 100" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="180" cy="30" r="4" fill="currentColor" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Python</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">TCP/IP</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Dash</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 5: AI-Powered Study Planner -->
+          <div class="project-item md:col-span-4 flex flex-col" data-category="ai">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">AI & Logic</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">AI-Powered Study Planner</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  An adaptive calendar algorithm that estimates task complexities, schedules optimal rest breaks, and designs dynamic study blocks based on student performance.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 200 100" fill="none">
+                    <rect x="20" y="15" width="40" height="70" rx="4" stroke="currentColor" strokeWidth="1"/>
+                    <rect x="80" y="15" width="40" height="70" rx="4" stroke="currentColor" strokeWidth="1"/>
+                    <rect x="140" y="15" width="40" height="70" rx="4" stroke="currentColor" strokeWidth="1"/>
+                    <line x1="60" y1="50" x2="80" y2="50" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
+                    <line x1="120" y1="50" x2="140" y2="50" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Python</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">ML Algorithms</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 6: Cloud-Based File Sharing System -->
+          <div class="project-item md:col-span-4 flex flex-col" data-category="web">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">Cloud</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Cloud File Sharing locker</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A secure storage repository using AWS cloud buckets, with user authentication protocols and expiring URL hashes for private, encrypted file sharing.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 200 100" fill="none">
+                    <path d="M60 70 C50 70 45 60 55 50 C50 40 65 30 80 40 C90 30 110 35 110 50 C125 50 120 70 105 70 Z" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="85" y1="50" x2="85" y2="75" stroke="currentColor" strokeWidth="1" />
+                    <path d="M78 68 L85 75 L92 68" stroke="currentColor" strokeWidth="1" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">AWS S3</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Cognito</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">NodeJS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 7: Fitness Tracking Mobile App -->
+          <div class="project-item md:col-span-4 flex flex-col" data-category="web">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">Mobile</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Fitness Tracking App</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A mobile dashboard monitoring daily step goals, caloric indexes, and target milestones, with local database syncing for offline session storage.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[2/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 200 100" fill="none">
+                    <rect x="75" y="10" width="50" height="80" rx="8" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="100" cy="80" r="4" stroke="currentColor" strokeWidth="1" />
+                    <circle cx="100" cy="40" r="15" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" />
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">React Native</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">SQLite</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 8: Cybersecurity Vulnerability Scanner -->
+          <div class="project-item md:col-span-12 flex flex-col" data-category="network">
+            <div class="spotlight-card p-6 sm:p-8 flex flex-col justify-between h-full">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-retro-charcoal/10 pb-3">
+                  <span class="px-2.5 py-0.5 bg-sage-olive text-cream-ivory text-[9px] font-typewriter uppercase tracking-widest rounded">Cybersecurity</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="github" class="w-4 h-4"></i></a>
+                    <a href="#" class="p-1 hover:text-ticket-crimson"><i data-lucide="external-link" class="w-4 h-4"></i></a>
+                  </div>
+                </div>
+                <h3 class="font-cinema font-bold text-xl text-retro-charcoal">Vulnerability Scan Dashboard</h3>
+                <p class="text-sm text-sepia-gray leading-relaxed font-sans">
+                  A terminal-based automation script designed to scan system subnets, audit port bindings, evaluate network routing exposures, and compile reports outlining patch priorities.
+                </p>
+              </div>
+              <div class="mt-6 space-y-4">
+                <div class="aspect-[4/1] rounded-xl overflow-hidden bg-cream-ivory border border-vintage-sepia/15 flex items-center justify-center relative">
+                  <svg class="w-full h-full text-ticket-crimson/80" viewBox="0 0 600 150" fill="none">
+                    <rect width="600" height="150" fill="#EFECE4" opacity="0.3"/>
+                    <rect x="50" y="30" width="500" height="90" rx="6" stroke="currentColor" strokeWidth="1"/>
+                    <line x1="50" y1="55" x2="550" y2="55" stroke="currentColor" strokeWidth="0.5" />
+                    <!-- Code bullets -->
+                    <circle cx="70" cy="42" r="3" fill="#8F3A2E" />
+                    <circle cx="85" cy="42" r="3" fill="#D8D3C5" />
+                    <circle cx="100" cy="42" r="3" fill="#22211F" />
+                    <!-- Scan sweeps -->
+                    <path d="M120 80 H480" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3"/>
+                    <circle cx="280" cy="80" r="14" stroke="currentColor" strokeWidth="1.5" className="animate-ping" style={{ transformOrigin: '280px 80px' }} />
+                    <circle cx="280" cy="80" r="4" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2 border-t border-retro-charcoal/5 font-typewriter text-[9px]">
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Python</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Linux Systems</span>
+                  <span class="px-2 py-0.5 bg-sepia-sand border border-vintage-sepia/15 rounded">Networks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene III // Production logs</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- EXPERIENCE TIMELINE -->
+    <section id="experience" class="py-16">
+      <div class="space-y-16">
+        <!-- Header -->
+        <div class="text-center">
+          <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block mb-2">Scene III // Production Logs</span>
+          <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+            Professional Logs & Leadership Roles
+          </h2>
+        </div>
+
+        <!-- Vertical Timeline Rigs -->
+        <div class="relative max-w-4xl mx-auto px-4">
+          <!-- Timeline line -->
+          <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-[1.5px] bg-retro-charcoal/10 -translate-x-1/2"></div>
+
+          <div class="space-y-12">
+            
+            <!-- Experience Item 1: Software Development Intern -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative md:flex-row-reverse">
+              <div class="absolute left-8 md:left-1/2 top-1.5 md:top-auto w-10 h-10 rounded-full bg-cream-ivory border border-retro-charcoal flex items-center justify-center -translate-x-1/2 z-10">
+                <i data-lucide="terminal" class="w-4 h-4 text-ticket-crimson"></i>
+              </div>
+              <div class="hidden md:block w-1/2"></div>
+              <div class="w-full md:w-[44%] pl-16 md:pl-0">
+                <div class="p-6 bg-white border border-retro-charcoal/15 rounded-3xl hover:shadow-md transition-shadow relative group">
+                  <div class="absolute inset-y-0 left-0 w-1 bg-ticket-crimson rounded-l-3xl"></div>
+                  <span class="inline-block px-2.5 py-0.5 bg-sepia-sand border border-vintage-sepia/15 text-[9px] font-typewriter text-vintage-sepia rounded-full uppercase tracking-wider mb-2">Internship</span>
+                  <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Software Development Intern</h3>
+                  <span class="block text-xs font-semibold text-sepia-gray mb-3 uppercase tracking-wider">Tech Startup // Bangalore</span>
+                  <ul class="text-xs text-sepia-gray leading-relaxed font-sans list-disc pl-4 space-y-2">
+                    <li>Developed responsive frontends and connected FastAPI logic nodes.</li>
+                    <li>Integrated custom database queries, resolving page load thresholds.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Item 2: Network Engineering Intern -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative">
+              <div class="absolute left-8 md:left-1/2 top-1.5 md:top-auto w-10 h-10 rounded-full bg-cream-ivory border border-retro-charcoal flex items-center justify-center -translate-x-1/2 z-10">
+                <i data-lucide="network" class="w-4 h-4 text-ticket-crimson"></i>
+              </div>
+              <div class="hidden md:block w-1/2"></div>
+              <div class="w-full md:w-[44%] pl-16 md:pl-0">
+                <div class="p-6 bg-white border border-retro-charcoal/15 rounded-3xl hover:shadow-md transition-shadow relative group">
+                  <div class="absolute inset-y-0 left-0 w-1 bg-ticket-crimson rounded-l-3xl"></div>
+                  <span class="inline-block px-2.5 py-0.5 bg-sepia-sand border border-vintage-sepia/15 text-[9px] font-typewriter text-vintage-sepia rounded-full uppercase tracking-wider mb-2">Internship</span>
+                  <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Network Engineering Intern</h3>
+                  <span class="block text-xs font-semibold text-sepia-gray mb-3 uppercase tracking-wider">Enterprise Infrastructure</span>
+                  <ul class="text-xs text-sepia-gray leading-relaxed font-sans list-disc pl-4 space-y-2">
+                    <li>Assisted with routing updates, verified topology structures, and resolved hardware port errors.</li>
+                    <li>Performed packet analysis to trace packet losses over corporate local networks.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Item 3: Student Technical Club Coordinator -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative md:flex-row-reverse">
+              <div class="absolute left-8 md:left-1/2 top-1.5 md:top-auto w-10 h-10 rounded-full bg-cream-ivory border border-retro-charcoal flex items-center justify-center -translate-x-1/2 z-10">
+                <i data-lucide="users" class="w-4 h-4 text-ticket-crimson"></i>
+              </div>
+              <div class="hidden md:block w-1/2"></div>
+              <div class="w-full md:w-[44%] pl-16 md:pl-0">
+                <div class="p-6 bg-white border border-retro-charcoal/15 rounded-3xl hover:shadow-md transition-shadow relative group">
+                  <div class="absolute inset-y-0 left-0 w-1 bg-ticket-crimson rounded-l-3xl"></div>
+                  <span class="inline-block px-2.5 py-0.5 bg-sepia-sand border border-vintage-sepia/15 text-[9px] font-typewriter text-vintage-sepia rounded-full uppercase tracking-wider mb-2">Leadership</span>
+                  <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Technical Club Coordinator</h3>
+                  <span class="block text-xs font-semibold text-sepia-gray mb-3 uppercase tracking-wider">Presidency University</span>
+                  <ul class="text-xs text-sepia-gray leading-relaxed font-sans list-disc pl-4 space-y-2">
+                    <li>Led technical workshops, instructed Git workflows, and managed event team distributions.</li>
+                    <li>Organized development assemblies and hosted guest presentation routing.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Item 4: Freelance Web Developer -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative">
+              <div class="absolute left-8 md:left-1/2 top-1.5 md:top-auto w-10 h-10 rounded-full bg-cream-ivory border border-retro-charcoal flex items-center justify-center -translate-x-1/2 z-10">
+                <i data-lucide="laptop" class="w-4 h-4 text-ticket-crimson"></i>
+              </div>
+              <div class="hidden md:block w-1/2"></div>
+              <div class="w-full md:w-[44%] pl-16 md:pl-0">
+                <div class="p-6 bg-white border border-retro-charcoal/15 rounded-3xl hover:shadow-md transition-shadow relative group">
+                  <div class="absolute inset-y-0 left-0 w-1 bg-ticket-crimson rounded-l-3xl"></div>
+                  <span class="inline-block px-2.5 py-0.5 bg-sepia-sand border border-vintage-sepia/15 text-[9px] font-typewriter text-vintage-sepia rounded-full uppercase tracking-wider mb-2">Freelance</span>
+                  <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Freelance Web Developer</h3>
+                  <span class="block text-xs font-semibold text-sepia-gray mb-3 uppercase tracking-wider">Self-Employed</span>
+                  <ul class="text-xs text-sepia-gray leading-relaxed font-sans list-disc pl-4 space-y-2">
+                    <li>Engineered custom portfolios and landing pages for local startups.</li>
+                    <li>Guaranteed layout responsiveness, SEO optimization, and lightning-fast loading speeds.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Item 5: Technical Event Volunteer -->
+            <div class="flex flex-col md:flex-row items-start md:items-center relative md:flex-row-reverse">
+              <div class="absolute left-8 md:left-1/2 top-1.5 md:top-auto w-10 h-10 rounded-full bg-cream-ivory border border-retro-charcoal flex items-center justify-center -translate-x-1/2 z-10">
+                <i data-lucide="help-circle" class="w-4 h-4 text-ticket-crimson"></i>
+              </div>
+              <div class="hidden md:block w-1/2"></div>
+              <div class="w-full md:w-[44%] pl-16 md:pl-0">
+                <div class="p-6 bg-white border border-retro-charcoal/15 rounded-3xl hover:shadow-md transition-shadow relative group">
+                  <div class="absolute inset-y-0 left-0 w-1 bg-ticket-crimson rounded-l-3xl"></div>
+                  <span class="inline-block px-2.5 py-0.5 bg-sepia-sand border border-vintage-sepia/15 text-[9px] font-typewriter text-vintage-sepia rounded-full uppercase tracking-wider mb-2">Volunteer</span>
+                  <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Technical Event Volunteer</h3>
+                  <span class="block text-xs font-semibold text-sepia-gray mb-3 uppercase tracking-wider">Bangalore Tech Circles</span>
+                  <ul class="text-xs text-sepia-gray leading-relaxed font-sans list-disc pl-4 space-y-2">
+                    <li>Coordinated speaker setups, guided attendees, and resolved registration disputes.</li>
+                    <li>Supported setup routines for hardware and server staging events.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene IV // Skill Index</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- SKILLS INDEX -->
+    <section id="skills" class="py-16">
+      <div class="space-y-12">
+        <!-- Header -->
+        <div>
+          <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block mb-2">Scene IV // Skill Index</span>
+          <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+            Technical Ecosystem & Toolkit
+          </h2>
+        </div>
+
+        <!-- Skills grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          
+          <!-- Skill: Python -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">CODE // 01</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Python</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">For machine learning pipelines, face matching scripts, and dashboard builds.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="terminal" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">System Core</span>
+            </div>
+          </div>
+
+          <!-- Skill: Java -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">CODE // 02</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Java</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">Object-oriented constructs, class layouts, and algorithms implementation.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="cpu" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Architecture</span>
+            </div>
+          </div>
+
+          <!-- Skill: C++ -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">CODE // 03</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">C++</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">For programming micro-controllers, Arduino shields, and hardware setups.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="cpu" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Embedded</span>
+            </div>
+          </div>
+
+          <!-- Skill: Web Dev -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">CODE // 04</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">HTML / CSS / JS</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">Developing interactive frontends and connecting dashboard charts.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="layout" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Frontend</span>
+            </div>
+          </div>
+
+          <!-- Skill: SQL -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">DATA // 05</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">SQL</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">Relational database schemas, table joins, and transactional queries.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Storage</span>
+            </div>
+          </div>
+
+          <!-- Skill: Networking -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">SYSTEM // 06</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Networking</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">TCP/IP protocols, port audits, network topologies, routing tables.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="network" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Routing</span>
+            </div>
+          </div>
+
+          <!-- Skill: Linux -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">SYSTEM // 07</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">Linux</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">Shell scripts, permission tables, process locks, and configuration files.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="terminal" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Shell</span>
+            </div>
+          </div>
+
+          <!-- Skill: AWS -->
+          <div class="spotlight-card p-6 flex flex-col justify-between">
+            <div class="space-y-3">
+              <span class="font-typewriter text-[10px] text-sepia-gray block">SYSTEM // 08</span>
+              <h3 class="font-cinema font-bold text-lg text-retro-charcoal">AWS & Cloud</h3>
+              <p class="text-xs text-sepia-gray font-sans leading-relaxed">Setting up secure storage buckets, account roles, and cloud triggers.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 flex items-center gap-2">
+              <i data-lucide="cloud" class="w-4 h-4 text-ticket-crimson"></i>
+              <span class="font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">Cloud</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene V // Reels</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- CERTIFICATIONS REEL -->
+    <section id="certifications" class="py-16">
+      <div class="space-y-12">
+        <!-- Header -->
+        <div>
+          <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block mb-2">Scene V // Reels & Distinctions</span>
+          <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+            Certified Milestones
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          
+          <!-- Cert 1: Cisco CCNA -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Cisco CCNA Introduction to Networks</h3>
+              <p class="text-xs text-sepia-gray font-sans">Credential covering standard TCP/IP network layers, routers configurations, and subnet distributions.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Cisco System
+            </div>
+          </div>
+
+          <!-- Cert 2: AWS Practitioner -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">AWS Cloud Practitioner Essentials</h3>
+              <p class="text-xs text-sepia-gray font-sans">Core AWS Cloud concepts, billing routes, identity systems, and global storage setups.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Amazon AWS
+            </div>
+          </div>
+
+          <!-- Cert 3: Python for Everybody -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Python for Everybody</h3>
+              <p class="text-xs text-sepia-gray font-sans">Structured syntax foundation covering list manipulations, REST API loops, and web scraping hooks.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Coursera
+            </div>
+          </div>
+
+          <!-- Cert 4: Google Data Analytics -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Google Data Analytics</h3>
+              <p class="text-xs text-sepia-gray font-sans">Comprehensive overview covering database query setups, analytical reports, and data frames plotting.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Google
+            </div>
+          </div>
+
+          <!-- Cert 5: Cybersecurity Essentials -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Cybersecurity Essentials</h3>
+              <p class="text-xs text-sepia-gray font-sans">Core techniques for system audits, identifying network attack routes, and resolving system port threats.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Cisco System
+            </div>
+          </div>
+
+          <!-- Cert 6: Intro to Machine Learning -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Introduction to Machine Learning</h3>
+              <p class="text-xs text-sepia-gray font-sans">Fundamental model training loops: regression tables, classification trees, and clustering setups.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Kaggle / Standard
+            </div>
+          </div>
+
+          <!-- Cert 7: Full Stack Bootcamp -->
+          <div class="bg-white border border-retro-charcoal/10 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-ticket-crimson transition-colors duration-300">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-sepia-sand flex items-center justify-center border border-vintage-sepia/20">
+                <i data-lucide="award" class="w-5 h-5 text-ticket-crimson"></i>
+              </div>
+              <h3 class="font-cinema font-bold text-base text-retro-charcoal">Full Stack Web Bootcamp</h3>
+              <p class="text-xs text-sepia-gray font-sans">Dynamic UI configurations, node service routing, database locks, and version deployments.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-retro-charcoal/5 font-typewriter text-[9px] uppercase tracking-widest text-sepia-gray">
+              Technical Academy
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene VII // Academic Record</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education" class="py-16 max-w-4xl mx-auto">
+      <div class="spotlight-card p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="space-y-4 text-center md:text-left">
+          <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block">Scene VII // Academic Track</span>
+          <h2 class="font-cinema text-3xl font-bold text-retro-charcoal">Bachelor of Engineering</h2>
+          <p class="font-typewriter text-sm text-sepia-gray uppercase tracking-wider font-semibold">
+            Computer Science and Network Engineering
+          </p>
+          <p class="text-sm text-sepia-gray max-w-md font-sans">
+            Specializing in cloud systems, routing protocol layouts, cryptographic networks, and software engineering principles.
+          </p>
+        </div>
+        <div class="ticket-stub p-6 flex flex-col items-center justify-center w-48 text-center border-l-2 border-dashed border-retro-charcoal/15 bg-sepia-sand/30">
+          <i data-lucide="graduation-cap" class="w-8 h-8 text-ticket-crimson mb-2"></i>
+          <span class="font-typewriter text-[10px] text-sepia-gray block uppercase">Established</span>
+          <span class="font-elite text-sm text-retro-charcoal block font-bold mt-1">Presidency Univ.</span>
+          <span class="font-typewriter text-[9px] text-sepia-gray block mt-2 uppercase">Bangalore, IN</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="py-12 flex items-center gap-4">
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+      <span class="font-elite text-xs text-sepia-gray tracking-widest uppercase">Scene VIII // Epilogue</span>
+      <div class="h-[1px] bg-retro-charcoal/10 flex-grow"></div>
+    </div>
+
+    <!-- CONTACT EPILOGUE -->
+    <section id="contact" class="py-16 text-center space-y-12">
+      <div class="space-y-3">
+        <span class="font-typewriter text-xs text-ticket-crimson uppercase tracking-widest block">Scene VIII // Epilogue</span>
+        <h2 class="font-cinema text-3xl sm:text-4xl font-extrabold text-retro-charcoal">
+          Let's Build Something Meaningful
+        </h2>
+        <p class="font-typewriter text-xs text-sepia-gray max-w-md mx-auto leading-relaxed">
+          Transmission channel open. Submit your credentials below to establish contact logs.
+        </p>
+      </div>
+
+      <!-- Contact Terminal Form -->
+      <div class="max-w-2xl mx-auto bg-white border border-retro-charcoal/10 rounded-3xl p-6 sm:p-10 shadow-sm text-left">
+        <form id="contact-terminal-form" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Name -->
+            <div class="flex flex-col space-y-2">
+              <label for="client-name" class="font-typewriter text-xs uppercase tracking-wider text-sepia-gray">Name</label>
+              <input type="text" id="client-name" name="name" required placeholder="Identifier (e.g. John Doe)" class="px-4 py-3 bg-cream-ivory border border-retro-charcoal/10 rounded-lg text-sm focus:outline-none focus:border-ticket-crimson transition-colors duration-300 font-typewriter">
+            </div>
+            <!-- Email -->
+            <div class="flex flex-col space-y-2">
+              <label for="client-email" class="font-typewriter text-xs uppercase tracking-wider text-sepia-gray">Email Address</label>
+              <input type="email" id="client-email" name="email" required placeholder="Route (e.g. name@example.com)" class="px-4 py-3 bg-cream-ivory border border-retro-charcoal/10 rounded-lg text-sm focus:outline-none focus:border-ticket-crimson transition-colors duration-300 font-typewriter">
+            </div>
+          </div>
+          <!-- Subject -->
+          <div class="flex flex-col space-y-2">
+            <label for="client-subject" class="font-typewriter text-xs uppercase tracking-wider text-sepia-gray">Subject</label>
+            <input type="text" id="client-subject" name="subject" required placeholder="Log Type (e.g. Collaboration Offer)" class="px-4 py-3 bg-cream-ivory border border-retro-charcoal/10 rounded-lg text-sm focus:outline-none focus:border-ticket-crimson transition-colors duration-300 font-typewriter">
+          </div>
+          <!-- Message -->
+          <div class="flex flex-col space-y-2">
+            <label for="client-message" class="font-typewriter text-xs uppercase tracking-wider text-sepia-gray">Message</label>
+            <textarea id="client-message" name="message" rows="4" required placeholder="Enter signal transmission details..." class="px-4 py-3 bg-cream-ivory border border-retro-charcoal/10 rounded-lg text-sm focus:outline-none focus:border-ticket-crimson transition-colors duration-300 resize-none font-typewriter"></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full flex items-center justify-center gap-2 py-4 bg-ticket-crimson hover:bg-retro-charcoal text-cream-ivory rounded-lg text-xs font-typewriter uppercase tracking-wider transition-all duration-300 shadow-sm focus:outline-none">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Transmit Signal</span>
+          </button>
+        </form>
+        <!-- Feedback popup -->
+        <div id="form-feedback" class="mt-4 hidden p-4 bg-sage-olive/10 border border-sage-olive/20 text-sage-olive rounded-lg text-xs font-typewriter">
+          Signal successfully established. Expect contact loop response within 24 hours.
+        </div>
+      </div>
+
+      <!-- Social Reels links -->
+      <div class="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs font-typewriter">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-retro-charcoal/10 hover:border-ticket-crimson rounded-full hover:text-ticket-crimson transition-colors duration-300 group">
+          <i data-lucide="github" class="w-4 h-4 text-sepia-gray group-hover:text-ticket-crimson"></i>
+          <span>GitHub</span>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-retro-charcoal/10 hover:border-ticket-crimson rounded-full hover:text-ticket-crimson transition-colors duration-300 group">
+          <i data-lucide="linkedin" class="w-4 h-4 text-sepia-gray group-hover:text-ticket-crimson"></i>
+          <span>LinkedIn</span>
+        </a>
+        <a href="mailto:tharun.p@example.com" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-retro-charcoal/10 hover:border-ticket-crimson rounded-full hover:text-ticket-crimson transition-colors duration-300 group">
+          <i data-lucide="mail" class="w-4 h-4 text-sepia-gray group-hover:text-ticket-crimson"></i>
+          <span>Email</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-retro-charcoal/10 pt-12 pb-6 mt-16 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-typewriter text-sepia-gray">
+      <div class="flex flex-col gap-1 items-center sm:items-start text-center sm:text-left">
+        <p class="font-bold text-retro-charcoal uppercase tracking-wider">
+          &copy; 2026 Tharun P.
+        </p>
+        <p>Vintage Cinema &times; Network Engineering</p>
+      </div>
+      <button id="scroll-top-btn" class="p-3 bg-white hover:bg-sepia-sand border border-retro-charcoal/10 hover:border-ticket-crimson text-retro-charcoal hover:text-ticket-crimson rounded-full transition-all duration-300 focus:outline-none" aria-label="Back to Top">
+        <i data-lucide="arrow-up" class="w-4 h-4"></i>
+      </button>
+    </footer>
+
+  </main>
+
+  <!-- SPROCKET BORDER ACCENTS BOTTOM -->
+  <div class="h-4 bg-retro-charcoal w-full">
+    <div class="sprocket-strip-top">
+      <div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div><div class="sprocket-hole"></div>
+    </div>
+  </div>
+
+  <!-- VANILLA JAVASCRIPT FOR CINEMATIC SYSTEMS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // --- 1. INITIALIZE CDNS ---
+      lucide.createIcons();
+
+      // --- 2. CINEMATIC COUNTDOWN LOADER ---
+      const loader = document.getElementById('countdown-loader');
+      const countText = document.getElementById('countdown-text');
+      let count = 3;
+      
+      const countInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countText.textContent = count;
+        } else if (count === 0) {
+          countText.textContent = "PLAY";
+        } else {
+          clearInterval(countInterval);
+          // Fade out loader using GSAP
+          gsap.to(loader, {
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            onComplete: () => {
+              loader.classList.add('hidden');
+              document.body.classList.add('custom-cursor-active');
+              // Start the hero typewriter animation
+              startHeroTypewriter();
+            }
+          });
+        }
+      }, 700);
+
+      // --- 3. CUSTOM CURSOR VIEWFINDER ---
+      const cursor = document.getElementById('custom-cursor');
+      let mouseX = -100, mouseY = -100;
+      let curX = -100, curY = -100;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Smooth custom cursor spring lag
+      function tickCursor() {
+        const dx = mouseX - curX;
+        const dy = mouseY - curY;
+        curX += dx * 0.15;
+        curY += dy * 0.15;
+        cursor.style.left = `${curX}px`;
+        cursor.style.top = `${curY}px`;
+        requestAnimationFrame(tickCursor);
+      }
+      tickCursor();
+
+      // Cursor scaling on hoverable items
+      const hoverTargets = document.querySelectorAll('a, button, input, textarea, .spotlight-card');
+      hoverTargets.forEach(target => {
+        target.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.6) rotate(45deg)';
+          cursor.style.borderColor = '#8F3A2E';
+        });
+        target.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+          cursor.style.borderColor = '#8F3A2E';
+        });
+      });
+
+      // --- 4. TYPEWRITER EFFECT IN HERO ---
+      const textArray = ["Building systems with logic and creating ideas with curiosity."];
+      const typewriterElement = document.getElementById('typewriter-text');
+      let charIdx = 0;
+
+      function startHeroTypewriter() {
+        const typingSpeed = 50; // ms
+        function type() {
+          if (charIdx < textArray[0].length) {
+            typewriterElement.textContent += textArray[0].charAt(charIdx);
+            charIdx++;
+            setTimeout(type, typingSpeed);
+          } else {
+            typewriterElement.classList.remove('typewriter-cursor');
+          }
+        }
+        type();
+      }
+
+      // --- 5. SPOTLIGHT CARD MOUSE TRACKING ---
+      const cards = document.querySelectorAll('.spotlight-card');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+
+      // --- 6. PROJECT GALLERY FILTERING ---
+      const filterButtons = document.querySelectorAll('#project-filters button');
+      const projectItems = document.querySelectorAll('.project-item');
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active classes
+          filterButtons.forEach(b => {
+            b.classList.remove('bg-ticket-crimson', 'border-ticket-crimson', 'text-cream-ivory');
+            b.classList.add('bg-sepia-sand', 'border-vintage-sepia/20', 'text-retro-charcoal');
+          });
+          // Add active classes to clicked
+          btn.classList.add('bg-ticket-crimson', 'border-ticket-crimson', 'text-cream-ivory');
+          btn.classList.remove('bg-sepia-sand', 'border-vintage-sepia/20', 'text-retro-charcoal');
+
+          const filterVal = btn.getAttribute('data-filter');
+
+          // GSAP filter transition
+          projectItems.forEach(item => {
+            const cat = item.getAttribute('data-category');
+            if (filterVal === 'all' || cat === filterVal) {
+              gsap.to(item, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out",
+                display: "flex"
+              });
+            } else {
+              gsap.to(item, {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+                display: "none"
+              });
+            }
+          });
+        });
+      });
+
+      // --- 7. NAV BLUR AND HEADER SHADOW ON SCROLL ---
+      const header = document.getElementById('main-header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 30) {
+          header.classList.add('bg-cream-ivory/90', 'backdrop-blur-md', 'shadow-sm', 'border-retro-charcoal/10', 'py-4');
+          header.classList.remove('bg-transparent', 'border-transparent', 'py-6');
+        } else {
+          header.classList.add('bg-transparent', 'border-transparent', 'py-6');
+          header.classList.remove('bg-cream-ivory/90', 'backdrop-blur-md', 'shadow-sm', 'border-retro-charcoal/10', 'py-4');
+        }
+      });
+
+      // --- 8. MOBILE NAVIGATION TOGGLE ---
+      const hamburger = document.getElementById('hamburger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuLinks = document.querySelectorAll('.mobile-link');
+
+      hamburger.addEventListener('click', () => {
+        const open = mobileMenu.classList.contains('translate-x-0');
+        if (open) {
+          mobileMenu.classList.remove('translate-x-0');
+          mobileMenu.classList.add('translate-x-full');
+        } else {
+          mobileMenu.classList.remove('translate-x-full');
+          mobileMenu.classList.add('translate-x-0');
+        }
+      });
+
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('translate-x-full');
+          mobileMenu.classList.remove('translate-x-0');
+        });
+      });
+
+      // --- 9. CONTACT FORM SIMULATION ---
+      const form = document.getElementById('contact-terminal-form');
+      const formFeedback = document.getElementById('form-feedback');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Transmitting...</span>`;
+        lucide.createIcons();
+
+        setTimeout(() => {
+          btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>Transmitted</span>`;
+          lucide.createIcons();
+          formFeedback.classList.remove('hidden');
+          form.reset();
+
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            lucide.createIcons();
+            formFeedback.classList.add('hidden');
+          }, 3000);
+        }, 1500);
+      });
+
+      // --- 10. SCROLL TO TOP ---
+      const scrollTopBtn = document.getElementById('scroll-top-btn');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+          scrollTopBtn.classList.add('opacity-100');
+        } else {
+          scrollTopBtn.classList.remove('opacity-100');
+          scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
+        }
+      });
+
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // --- 11. GSAP SCROLL TRIGGERS FOR FADE-UP TRANSITIONS ---
+      gsap.registerPlugin(ScrollTrigger);
+
+      const revealElements = document.querySelectorAll('#about, #projects, #experience, #skills, #certifications, #education, #contact');
+      revealElements.forEach(el => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          },
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>

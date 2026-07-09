@@ -1,0 +1,51 @@
+======================================================================
+                         THARUN P
+======================================================================
+AI & Software Engineer | Computer Science Engineering (Networks) Student
+Bangalore, India | tharun.p@example.com | github.com | linkedin.com
+
+----------------------------------------------------------------------
+EDUCATION
+----------------------------------------------------------------------
+Presidency University, Bangalore
+B.Tech in Computer Science Engineering (Networks)
+Expected Graduation: 2028 (Currently in 2nd Year)
+Key Focus: Machine Learning, Cloud Security, Operating Systems, TCP/IP
+
+----------------------------------------------------------------------
+PROJECTS
+----------------------------------------------------------------------
+Sethu - AI-Powered Missing Persons & Crisis Detection Platform
+* Designed dynamic geographic heatmaps using React interfaces.
+* Integrated deep learning facial recognition algorithms.
+* Programmed automatic emergency alert systems.
+
+Smart Pill Dispenser - Healthcare IoT System
+* Created scheduling controls using Arduino C++ and RTC modules.
+* Designed LCD notification workflows and servo-motor pill dispensers.
+* Programmed sound alert loops for medication compliance.
+
+Smart Waste Monitoring System - IoT Smart Cities Rig
+* Embedded ultrasonic distance sensors to monitor refuse bins.
+* Developed low-power telemetry transmission setups.
+
+Presidency University FAQ Chatbot
+* Developed a natural language parser utilizing LLMs and FastAPI.
+* Resolved academic fee structure and calendar route lookups.
+
+----------------------------------------------------------------------
+TECHNICAL SKILLS
+----------------------------------------------------------------------
+* Programming: Python, Java, JavaScript, C, HTML/CSS, C++ (Arduino)
+* AI & Vision: Machine Learning, Deep Learning, TensorFlow, Whisper AI, Computer Vision, Prompt Engineering
+* Networks & Cloud: TCP/IP, Network Security, Cloud Computing, Cybersecurity, Microsoft Azure
+* Web & Tools: React, Vite, TailwindCSS, Node.js, Git, GitHub
+* Soft Skills: Team Leadership, Problem Solving, Rapid Prototyping
+
+----------------------------------------------------------------------
+CERTIFICATIONS & DISTINCTIONS
+----------------------------------------------------------------------
+* Microsoft Certified: Azure AI Fundamentals (AI-900)
+* Active Hackathon Participant (Bangalore Tech Circles)
+* Coordinator, Student Developer Forum
+======================================================================
